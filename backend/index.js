@@ -1,6 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
 import {connectDb} from "./database/db.js"
+import cookieParser from "cookie-parser"
 
 import cloudinary from "cloudinary"
 
@@ -13,6 +14,9 @@ cloudinary.v2.config({
 })
 
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded())
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
   res.send("hiiiiiii")
@@ -24,9 +28,9 @@ import authRoutes from "./routes/authRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 
 //using routes
-app.get("/api/auth", authRoutes)
-app.get("/api/user", userRoutes)
-app.get("/api/post", postRoutes)
+app.use("/api/auth", authRoutes)
+app.use("/api/user", userRoutes)
+app.use("/api/post", postRoutes)
 //
 const port = process.env.PORT
 app.listen(port, () => {
